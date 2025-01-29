@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sequelize": "sequelize",
-    "sequelize-cli": "sequelize-cli",
-    "start": "per-env",
-    "start:development": "nodemon ./bin/www",
-    "start:production": "node ./bin/www",
-    "build": "node psql-setup-script.js"
-  },
+  "sequelize": "sequelize",
+  "sequelize-cli": "sequelize-cli",
+  "start": "per-env",
+  "start:development": "nodemon ./bin/www",
+  "start:production": "node ./bin/www",
+  "build": "node psql-setup-script.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -36,3 +36,5 @@
     "sqlite3": "^5.1.7"
   }
 }
+
+
