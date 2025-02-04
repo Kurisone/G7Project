@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -20,7 +20,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await Spot.bulkCreate([
+    await queryInterface.bulkInsert('Spots', [
       {
 
         id: 1,
@@ -78,7 +78,7 @@ module.exports = {
     ], { validate: true });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *
@@ -90,5 +90,5 @@ module.exports = {
     return queryInterface.bulkDelete(options, {
       username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
     }, {});
-  } 
+  }
 }; 
