@@ -13,18 +13,17 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     let options = {};
     if (process.env.NODE_ENV === 'production') {
-    options.schema = process.env.SCHEMA;  // define your schema in options object
-  }
-    
-  await queryInterface.createTable('Spots', {
+      options.schema = process.env.SCHEMA;  // define your schema in options object
+    }
+
+    await queryInterface.createTable('Spots', {
 
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true, 
+        primaryKey: true,
         type: Sequelize.INTEGER
       },
-<<<<<<< HEAD
       ownerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -33,16 +32,6 @@ module.exports = {
           key: 'id'
         },
         onDelete: 'CASCADE' // when user deleted, all spots are automatically as well
-=======
-
-      ownerId: { 
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        // references: {
-        //   model: 'Users',
-        //   key: 'id'
-      // }
->>>>>>> staging
       },
       address: {
         type: Sequelize.STRING(256),
@@ -91,21 +80,7 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-<<<<<<< HEAD
-=======
 
-      // avgRating: {
-      //   type: Sequelize.DECIMAL, //-> don't put aggregate data on db. 
-      //   allowNull: false,
-          //defaultvalue: 0,
-      // },
-
-      // previewImage: {
-      //   type: Sequelize.STRING,
-      //   allowNull: false
-      // },
-
->>>>>>> staging
     }, options);
   },
   async down(queryInterface, Sequelize) {
@@ -118,7 +93,3 @@ module.exports = {
     await queryInterface.dropTable('Spots');
   }
 };
-<<<<<<< HEAD
-=======
-
->>>>>>> staging

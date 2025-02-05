@@ -9,11 +9,8 @@ if (process.env.NODE_ENV === 'production') {
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-<<<<<<< HEAD
+
   async up(queryInterface, Sequelize) {
-=======
-  async up (queryInterface, Sequelize) { 
->>>>>>> staging
     /**
      * Add seed commands here.
      * 
@@ -23,14 +20,11 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-<<<<<<< HEAD
     await queryInterface.bulkInsert('Spots', [
-=======
-    await queryInterface.bulkInsert ( 'Spots', [ 
->>>>>>> staging
+
       {
 
-        
+
         ownerId: 1,
         address: "123 Disney Lane",
         city: "San Francisco",
@@ -56,13 +50,7 @@ module.exports = {
      */
     options.tableName = 'Spots';
     const Op = Sequelize.Op;
-<<<<<<< HEAD
-    return queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
-    }, {});
-  }
-=======
+
     return queryInterface.bulkDelete(options, {}, {});
-  } 
->>>>>>> staging
+  }
 }; 
