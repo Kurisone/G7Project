@@ -8,6 +8,7 @@
 //   options.schema = process.env.SCHEMA;  // define your schema in options object
 // }
 
+<<<<<<< HEAD:backend/db/seeders/01-demo-user.js
 // /** @type {import('sequelize-cli').Migration} */
 // module.exports = {
 //   async up (queryInterface, Sequelize) {
@@ -38,6 +39,38 @@
 //       }
 //     ], { validate: true });
 //   },
+=======
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    /** 
+     * Add seed commands here. 
+     * 
+     * Example:
+     * await queryInterface.bulkInsert('People', [{
+     *   name: 'John Doe',
+     *   isBetaMember: false
+     * }], {});
+    */
+    await User.bulkCreate([
+      {
+        email: 'demo@user.io',
+        username: 'Demo-lition',
+        hashedPassword: bcrypt.hashSync('password')
+      },
+      {
+        email: 'user1@user.io',
+        username: 'FakeUser1',
+        hashedPassword: bcrypt.hashSync('password2')
+      },
+      {
+        email: 'user2@user.io',
+        username: 'FakeUser2',
+        hashedPassword: bcrypt.hashSync('password3')
+      }
+    ], { validate: true });
+  },
+>>>>>>> staging:backend/db/seeders/01-user.js
 
 //   async down (queryInterface, Sequelize) {
 //     /**

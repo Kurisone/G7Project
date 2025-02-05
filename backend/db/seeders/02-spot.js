@@ -1,7 +1,6 @@
 'use strict';
 
 const { Spot } = require('../models');
-const bcrypt = require("bcryptjs");
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -10,20 +9,28 @@ if (process.env.NODE_ENV === 'production') {
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
+<<<<<<< HEAD
   async up(queryInterface, Sequelize) {
+=======
+  async up (queryInterface, Sequelize) { 
+>>>>>>> staging
     /**
      * Add seed commands here.
-     *
+     * 
      * Example:
      * await queryInterface.bulkInsert('People', [{
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
     */
+<<<<<<< HEAD
     await queryInterface.bulkInsert('Spots', [
+=======
+    await queryInterface.bulkInsert ( 'Spots', [ 
+>>>>>>> staging
       {
 
-        id: 1,
+        
         ownerId: 1,
         address: "123 Disney Lane",
         city: "San Francisco",
@@ -34,46 +41,8 @@ module.exports = {
         name: "App Academy",
         description: "Place where web developers are created",
         price: 123,
-        createdAt: "2021-11-19 20:39:36",
-        updatedAt: "2021-11-19 20:39:36",
-        avgRating: 4.5,
-        previewImage: "image url",
-        hashedPassword: bcrypt.hashSync('password')
       },
-      {
-        id: 1,
-        ownerId: 1,
-        address: "123 Disney Lane",
-        city: "San Francisco",
-        state: "California",
-        country: "United States of America",
-        lat: 37.7645358,
-        lng: -122.4730327,
-        name: "App Academy",
-        description: "Place where web developers are created",
-        price: 123,
-        createdAt: "2021-11-19 20:39:36",
-        updatedAt: "2021-11-19 20:39:36",
-        avgRating: 4.5,
-        previewImage: "image url",
-      },
-      {
-        id: 1,
-        ownerId: 1,
-        address: "123 Disney Lane",
-        city: "San Francisco",
-        state: "California",
-        country: "United States of America",
-        lat: 37.7645358,
-        lng: -122.4730327,
-        name: "App Academy",
-        description: "Place where web developers are created",
-        price: 123,
-        createdAt: "2021-11-19 20:39:36",
-        updatedAt: "2021-11-19 20:39:36",
-        avgRating: 4.5,
-        previewImage: "image url",
-      }
+
 
     ], { validate: true });
   },
@@ -87,8 +56,13 @@ module.exports = {
      */
     options.tableName = 'Spots';
     const Op = Sequelize.Op;
+<<<<<<< HEAD
     return queryInterface.bulkDelete(options, {
       username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
     }, {});
   }
+=======
+    return queryInterface.bulkDelete(options, {}, {});
+  } 
+>>>>>>> staging
 }; 

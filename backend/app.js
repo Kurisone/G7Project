@@ -3,6 +3,9 @@ const express = require('express');
 require('express-async-errors');
 const routes = require('./routes');
 
+// const spotsRouter = require('./routes/spots');
+// // ?
+
 // --Security Imports--
 const morgan = require('morgan');
 const cors = require('cors');

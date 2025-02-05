@@ -1,8 +1,9 @@
 // ----IMPORTS----
 // --Express imports
 const usersRouter = require('./users.js');
-const router = require('express').Router();
+const express = require('express')
 const sessionRouter = require('./session.js');
+const spotsRouter = require('./spots.js');
 
 // --Sequelize imports
 const { User } = require('../../db/models');
@@ -13,16 +14,13 @@ const { restoreUser, setTokenCookie, requireAuth } = require('../../utils/auth.j
 //const { requireAuth } = require('../../utils/auth.js');
 
 // --Middleware--
+const router = express.Router()
 router.use(restoreUser);
 
 // --Routes for API--
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
-// router.use('/spots', spotsRouter);
-
-router.post('/test', (req, res) => {
-  res.json({ requestBody: req.body });
-});
+router.use('/spots', spotsRouter);
 
 
 // --Routes--
