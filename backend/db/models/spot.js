@@ -223,14 +223,14 @@ module.exports = (sequelize, DataTypes) => {
   //   },
   // },
 
-  // previewImage: {
-  //   type: DataTypes.STRING,
-  //   allowNull: false,
-  //   unique: true,
-  //   validate: {
-  //    len: [3, 256]
-  //   },
-  // },
+  updatedAt: {
+    type: DataTypes.DECIMAL,
+    allowNull: false,
+    validate: {
+     len: [3, 256]
+    },
+  },
+
 },
 
   {

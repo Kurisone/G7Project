@@ -67,7 +67,7 @@ router.get('/', requireAuth, async (req, res) => {
     const users = await User.findAll({
       attributes: ['id', 'email', 'username']
     });
-    return res.json({ users }); 
+    return res.json({ users });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

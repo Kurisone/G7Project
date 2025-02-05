@@ -1,9 +1,9 @@
 // ----IMPORTS----
 // --Express imports
+const spotsRouter = require('./spots.js');
 const usersRouter = require('./users.js');
 const express = require('express')
 const sessionRouter = require('./session.js');
-const spotsRouter = require('./spots.js');
 
 // --Sequelize imports
 const { User } = require('../../db/models');
@@ -19,8 +19,8 @@ router.use(restoreUser);
 
 // --Routes for API--
 router.use('/session', sessionRouter);
-router.use('/users', usersRouter);
 router.use('/spots', spotsRouter);
+router.use('/users', usersRouter);
 
 
 // --Routes--
