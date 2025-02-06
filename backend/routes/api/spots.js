@@ -45,30 +45,27 @@ const validateSpot = [
     .withMessage('Please provide a valid price.'),
   handleValidationErrors
 ];
-  
-
-
 
 
 // --Create New Spot--
 router.post('/', requireAuth, validateSpot, async (req, res) => {
   try {
-   const { address, city, state, country, lat, lng, name, description, price } = req.body;
-   const ownerId = req.user.id;
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const ownerId = req.user.id;
 
-   const spot = await Spot.create({
-    ownerId,
-    address,
-    city,
-    state,
-    country,
-    lat,
-    lng,
-    name,
-    description,
-    price
-});
-    
+    const spot = await Spot.create({
+      ownerId,
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price
+    });
+
     return res.status(201).json(spot);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -90,15 +87,45 @@ router.get('/', async (req, res) => {
 
 // --Get Spot By Id--
 router.get('/:id', async (req, res) => {
-   try {
-     const spot = await Spot.findByPk(req.params.id);
-     if (!spot) {
-        return res.status(404).json({ error: "Spot not found"});
-     }
-     return res.json(spot);
-   } catch (error) {
-     return res.status(500).json({ error: error.message });
+  try {
+    const spot = await Spot.findByPk(req.params.id);
+    if (!spot) {
+      return res.status(404).json({ error: "Spot not found" });
+    }
+    return res.json(spot);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 });
+
+// delete a spot
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+  const spotId = req.params.spotId;
+  const userId = req.user.id;
+
+  try {
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      const err = new Error("Spot couldn't be found");
+      err.status = 404;
+      return next(err);
+    }
+
+    if (spot.ownerId !== userId) {
+      const err = new Error('Forbidden');
+      err.status = 403;
+      return next(err);
+    }
+
+    await spot.destroy();
+    res.json({ message: "Successfully deleted" });
+  } catch (e) {
+    next(e);
+  }
+});
+
+
+
 
 module.exports = router;

@@ -6,12 +6,15 @@ const express = require('express')
 const sessionRouter = require('./session.js');
 
 // --Sequelize imports
-const { User } = require('../../db/models');
+//const { User } = require('../../db/models'); // destructurs user model
+const db = require('../../db/models'); //imports entire db object
+const User = db.User; //accesses user model from object
+
 
 // -- Middleware Imports-- Condensed to one line of code
 const { restoreUser, setTokenCookie, requireAuth } = require('../../utils/auth.js');
-//const { setTokenCookie } = require('../../utils/auth.js');
-//const { requireAuth } = require('../../utils/auth.js');
+// const { setTokenCookie } = require('../../utils/auth.js');
+// const { requireAuth } = require('../../utils/auth.js');
 
 // --Middleware--
 const router = express.Router()
@@ -51,8 +54,8 @@ router.get('/require-auth', requireAuth, (req, res) => {
 }
 );
 // Keep this route to test frontend setup in Mod 5
-router.post('/test', function (req, res) {
-  res.json({ requestBody: req.body });
-});
+// router.post('/test', function (req, res) {
+//   res.json({ requestBody: req.body });
+// });
 
 module.exports = router;

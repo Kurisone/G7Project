@@ -1,19 +1,20 @@
 // --Express imports-- 
 const express = require('express');
+const router = express.Router();
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 // --Security Imports--
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { check } = require('express-validator');
 
 // -- utilities Imports--
-const { check } = require('express-validator');
+const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
-const { User } = require('../../db/models');
-
-const router = express.Router();
+//const { User } = require('../../db/models');
+const db = require('../../db/models');
+const User = db.user;
 
 // Protection for login input data
 const validateLogin = [
