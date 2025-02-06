@@ -8,13 +8,54 @@ if (process.env.NODE_ENV === 'production') {
 /* @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    let options = {};
-    if (process.env.NODE_ENV === 'production') {
-    options.schema = process.env.SCHEMA;  // define your schema in options object
-  }
+  //   let options = {};
+  //   if (process.env.NODE_ENV === 'production') {
+  //   options.schema = process.env.SCHEMA;  // define your schema in options object
+  // }
     
-  await queryInterface.createTable('Spots', {
+  await queryInterface.createTable('Reviews', {
+    
+//Reviews
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true, 
+        type: Sequelize.INTEGER
+      },
 
+      userId: { 
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+    
+      spotId: { 
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: true
+      },
+
+      review: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
+      stars: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+
+      updatedAt: {
+         allowNull: false,
+         type: Sequelize.DATE,
+         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+// Spots
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -26,7 +67,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-    
+
       address: {
         type: Sequelize.STRING(256),
         allowNull: false,
@@ -80,19 +121,20 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
+
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      },
+      }
 
     }, options);
   },
   async down(queryInterface, Sequelize) {
- 
-    options.tableName = "Spots";
+   
+    options.tableName = "Reviews";
     return queryInterface.dropTable(options);
-    await queryInterface.dropTable('Spots');
+    await queryInterface.dropTable('Reviews');
   }
 };
 

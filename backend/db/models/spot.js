@@ -86,11 +86,11 @@ module.exports = (sequelize, DataTypes) => {
   },
 
   description: {
-  type: DataTypes.STRING,
-  allowNull: false,
-  validate: {
-    len: [20, 60]
-  },
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+     len: [20, 60]
+   },
  },
 
  price: {
@@ -100,24 +100,6 @@ module.exports = (sequelize, DataTypes) => {
      min: 1
     },
   },
-
-  // avgRating: {
-  //   type: DataTypes.DECIMAL,
-  //   allowNull: true,
-  //   validate: {
-  //    min: 0,
-  //    max: 10,
-  //   },
-  // },
-
-  // previewImage: {
-  //   type: DataTypes.STRING,
-  //   allowNull: false,
-  //   unique: true,
-  //   validate: {
-  //    len: [3, 256]
-  //   },
-  // },
 },
 
   {

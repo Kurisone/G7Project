@@ -3,9 +3,6 @@ const express = require('express');
 require('express-async-errors');
 const routes = require('./routes');
 
-// const spotsRouter = require('./routes/spots');
-// // ?
-
 // --Security Imports--
 const morgan = require('morgan');
 const cors = require('cors');
@@ -49,7 +46,7 @@ app.use(
   })
 );
 
-//----------------Middle ware must be used above this line-------
+//-----------Middleware must be used above this line----------
 // --Routes--
 app.use(routes); // Connect all the routes
 
