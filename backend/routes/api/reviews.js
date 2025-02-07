@@ -76,7 +76,7 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
 
 // --Get All Spots--
 router.get('/', async (req, res) => {
-  try { 
+  try {
     const spots = await Spot.findAll();
     return res.json(spots);
   } catch (error) {
