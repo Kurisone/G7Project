@@ -8,11 +8,11 @@ const { check, validationResult } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
-const { Spot } = require('../../db/models');
+const { Review } = require('../../db/reviews');
 
 
-//--Middleware to protect incoming Data for spot creation route-- 
-const validateSpot = [
+//--Middleware to protect incoming Data for review creation route-- 
+const validateReview = [
   check('address')
     .exists({ checkFalsy: true })
     .withMessage('Please provide an address.'),
@@ -47,18 +47,18 @@ const validateSpot = [
 ];
   
 
-// --Create New Spot--
-router.post('/', requireAuth, validateSpot, async (req, res) => {
+// --Create New Review--
+router.post('/', requireAuth, validateReview, async (req, res) => {
   try {
    const { address, city, state, country, lat, lng, name, description, price } = req.body;
    const ownerId = req.user.id;
 
-   const spot = await Spot.create({
+   const review = await Review.create({
     ownerId,
     address,
     city,
     state,
-    country,
+    country, 
     lat,
     lng,
     name,
@@ -66,7 +66,7 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
     price
 });
     
-    return res.status(201).json(spot);
+    return res.status(201).json(review);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -74,25 +74,25 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
 
 
 
-// --Get All Spots--
+// --Get All Reviews--
 router.get('/', async (req, res) => {
   try {
-    const spots = await Spot.findAll();
-    return res.json(spots);
+    const reviews = await Review.findAll();
+    return res.json(reviews);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 });
 
 
-// --Get Spot By Id--
+// --Get Review By Id--
 router.get('/:id', async (req, res) => {
    try {
-     const spot = await Spot.findByPk(req.params.id);
-     if (!spot) {
-        return res.status(404).json({ error: "Spot not found"});
+     const review = await Review.findByPk(req.params.id);
+     if (!review) {
+        return res.status(404).json({ error: "Review not found"});
      }
-     return res.json(spot);
+     return res.json(review);
    } catch (error) {
      return res.status(500).json({ error: error.message });
   }

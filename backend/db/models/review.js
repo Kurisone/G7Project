@@ -3,7 +3,7 @@
  
  
  module.exports = (sequelize, DataTypes) => { 
-   class Spot extends Model {
+   class review extends Model {
      /**
       * Helper method for defining associations.
       * This method is not a part of Sequelize lifecycle.
@@ -14,7 +14,7 @@
      }
    } 
  
-   Review.init(
+   review.init(
      {
 
 //Reviews:
@@ -23,6 +23,7 @@
       type: DataTypes.INTEGER, 
       allowNull: false,
       unique: true,
+      primaryKey: true,
     },
    
     userId: {
@@ -65,6 +66,7 @@
       type: DataTypes.INTEGER, 
       allowNull: false,
       unique: true,
+      primaryKey: true,
     },
     
     address: {
@@ -158,5 +160,5 @@
      },
    }
  );
-   return Review;
+   return review;
  };

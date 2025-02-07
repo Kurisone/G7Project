@@ -5,13 +5,13 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-/* @type {import('sequelize-cli').Migration} */
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-  //   let options = {};
-  //   if (process.env.NODE_ENV === 'production') {
-  //   options.schema = process.env.SCHEMA;  // define your schema in options object
-  // }
+    let options = {};
+    if (process.env.NODE_ENV === 'production') {
+    options.schema = process.env.SCHEMA;  // define your schema in options object
+  }
     
   await queryInterface.createTable('Reviews', {
     
@@ -21,7 +21,7 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true, 
         type: Sequelize.INTEGER
-      },
+      }, 
 
       userId: { 
         type: Sequelize.INTEGER,
