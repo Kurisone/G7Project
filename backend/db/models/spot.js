@@ -115,6 +115,23 @@ module.exports = (sequelize, DataTypes) => {
     },
   },
 
+  // avgRating: {
+  //   type: DataTypes.DECIMAL,
+  //   allowNull: true,
+  //   validate: {
+  //    min: 0,
+  //    max: 10,
+  //   },
+  // },
+
+  updatedAt: {
+    type: DataTypes.DECIMAL,
+    allowNull: false,
+    validate: {
+     len: [3, 256]
+    },
+  },
+
 },
 
   {
