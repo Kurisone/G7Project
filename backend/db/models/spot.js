@@ -114,6 +114,7 @@ module.exports = (sequelize, DataTypes) => {
      min: 1
     },
   },
+
 },
 
   {

@@ -35,6 +35,65 @@ module.exports = {
         price: 123,
       },
 
+      {
+
+        
+        ownerId: 2,
+        address: "456 Disney Land",
+        city: "Los Angeles",
+        state: "California",
+        country: "United States of America",
+        lat: 42.4368942,
+        lng: -111.4267436,
+        name: "DisneyApp Land",
+        description: "Place where web developers are created",
+        price: 123,
+      },
+
+      {
+
+        
+        ownerId: 3,
+        address: "789 Disney Lane",
+        city: "San Diego",
+        state: "California",
+        country: "United States of America",
+        lat: 67.9812248,
+        lng: -212.9987643,
+        name: "Sea World",
+        description: "Place where web developers love to swim",
+        price: 123,
+      },
+
+      {
+
+        
+        ownerId: 4,
+        address: "454 Disney Lane",
+        city: "Malibu",
+        state: "California",
+        country: "United States of America",
+        lat: 99.3892734,
+        lng: -311.9734529,
+        name: "Malibu Mansions",
+        description: "Place where web developers build mansions",
+        price: 123,
+      },
+
+      {
+
+        
+        ownerId: 5,
+        address: "713 Disney Lane",
+        city: "Long Beach",
+        state: "California",
+        country: "United States of America",
+        lat: 56.3947564,
+        lng: -542.9485763,
+        name: "Beach Academy",
+        description: "Place where web developers are created",
+        price: 123,
+      },
 
     ], { validate: true });
   },

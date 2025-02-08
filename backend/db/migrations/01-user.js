@@ -11,17 +11,25 @@ module.exports = {
     await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
-        autoIncrement: true,  
-        primaryKey: true, 
+        autoIncrement: true,
+        primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
+      firstName: {
         type: Sequelize.STRING(30),
         allowNull: false,
-        unique: true
+      },
+      lastName: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       email: {
         type: Sequelize.STRING(256),
+        allowNull: false,
+        unique: true
+      },
+      username: {
+        type: Sequelize.STRING(30),
         allowNull: false,
         unique: true
       },
@@ -43,6 +51,6 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "Users";
-    return queryInterface.dropTable(options);
+    await queryInterface.dropTable(options);
   }
 };
