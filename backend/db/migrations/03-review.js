@@ -16,7 +16,7 @@ module.exports = {
   await queryInterface.createTable('Reviews', {
     
 //Reviews
-      id: {
+      id: { 
         allowNull: false,
         autoIncrement: true,
         primaryKey: true, 
@@ -32,10 +32,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         unique: true
+
       },
 
       review: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
       },
 
@@ -55,78 +56,7 @@ module.exports = {
          type: Sequelize.DATE,
          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     },
-// Spots
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true, 
-        type: Sequelize.INTEGER
-      },
 
-      ownerId: { 
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-
-      address: {
-        type: Sequelize.STRING(256),
-        allowNull: false,
-        unique: true
-      },
-
-      city: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      state: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      country: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      lat: {
-        type: Sequelize.DECIMAL,
-        allowNull: false,
-        unique: true
-      },
-
-      lng: {
-        type: Sequelize.DECIMAL,
-        allowNull: false,
-        unique: true
-      },
-
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      description: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      price: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-    
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      },
-
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      }
 
     }, options);
   },

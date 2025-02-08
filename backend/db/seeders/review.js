@@ -1,158 +1,97 @@
+'use strict';
 
-     {
-        [
-            {
+const { Review } = require('../models');
 
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) { 
+    /**
+     * Add seed commands here.
+     * 
+     * Example:
+     * await queryInterface.bulkInsert('People', [{
+     *   name: 'John Doe',
+     *   isBetaMember: false
+     * }], {});
+    */
+    await queryInterface.bulkInsert ( 'Reviews', [ 
+    {
+    //  "Reviews": [
+      
         "id": 1,
         "userId": 1,
         "spotId": 1,
-        "review": "This place was sexy robot models!",
+        "review": "This was an awesome spot!",
         "stars": 5,
         "createdAt": "2021-11-19 20:39:36",
         "updatedAt": "2021-11-19 20:39:36" ,
-        "User": {
-          "id": 1,
-          "firstName": "Vrobot",
-          "lastName": "loafer"
-        },
-        "Spot": {
-          "id": 1,
-          "ownerId": 1,
-          "address": "456 Disney Lane",
-          "city": "San Francisco",
-          "state": "California",
-          "country": "vrobot Capitol",
-          "lat": 37.7645359,
-          "lng": -122.4730328,
-          "name": "App Academy",
-          "price": 123,
-          "previewImage": "image url"
-        },
-        "ReviewImages": [
-          {
-            "id": 1,
-            "url": "image url"
-          }
-        ]
-      } 
-    ]
-  };
-
-    
-     {
-        [
-          {
-            "id": 1,
-            "userId": 1,
-            "spotId": 1,
-            "review": "That was a CRAZY time!",
-            "stars": 5,
-            "createdAt": "2021-11-19 20:39:36",
-            "updatedAt": "2021-11-19 20:39:36" ,
-            "User": {
-              "id": 1,
-              "firstName": "Bitsy",
-              "lastName": "Johnson"
-            },
-            "Spot": {
-              "id": 1,
-              "ownerId": 1,
-              "address": "789 Disney Lane",
-              "city": "San Francisco",
-              "state": "California",
-              "country": "United States of America",
-              "lat": 37.7645351,
-              "lng": -122.4730320,
-              "name": "Steven King's Spaceship Country Cabin",
-              "price": 123,
-              "previewImage": "image url"
-            },
-            "ReviewImages": [
-              {
-                "id": 1,
-                "url": "image url"
-              }
-            ]
-          }
-        ]
-      };
-
+      },
 
 
       {
-        [
-          {
-            "id": 1,
-            "userId": 1,
-            "spotId": 1,
-            "review": "This place stunk like human pee!",
-            "stars": 10,
-            "createdAt": "2021-11-19 20:39:36",
-            "updatedAt": "2021-11-19 20:39:36" ,
-            "User": {
-              "id": 1,
-              "firstName": "Steven",
-              "lastName": "King"
-            },
-            "Spot": {
-              "id": 1,
-              "ownerId": 1,
-              "address": "112 Disney Lane",
-              "city": "San Francisco",
-              "state": "California",
-              "country": "United States of America",
-              "lat": 37.7645352,
-              "lng": -122.4730323,
-              "name": "",
-              "price": 123,
-              "previewImage": "image url"
-            },
-            "ReviewImages": [
-              {
-                "id": 1,
-                "url": "image url"
-              }
-            ]
-          }
-        ]
-      };
+        "id": 2,
+        "userId": 2,
+        "spotId": 2,
+        "review": "Great vacation spot!",
+        "stars": 5,
+        "createdAt": "2021-11-19 20:39:36",
+        "updatedAt": "2021-11-19 20:39:36" ,
+      },
 
 
+      {
+        "id": 3,
+        "userId": 3,
+        "spotId": 3,
+        "review": "Lots of water!",
+        "stars": 4,
+          "createdAt": "2021-11-19 20:39:36",
+          "updatedAt": "2021-11-19 20:39:36" ,
+      },
 
-     {
-        [
-          {
-            "id": 1,
-            "userId": 1,
-            "spotId": 1,
-            "review": "This place 'supplied well', if ya know what I mean!",
-            "stars": 5,
-            "createdAt": "2021-11-19 20:39:36",
-            "updatedAt": "2021-11-19 20:39:36" ,
-            "User": {
-              "id": 1,
-              "firstName": "John",
-              "lastName": "Smith"
-            },
-            "Spot": {
-              "id": 1,
-              "ownerId": 1,
-              "address": "314 Disney Lane",
-              "city": "San Francisco",
-              "state": "California",
-              "country": "United States of America",
-              "lat": 37.7645354,
-              "lng": -122.4730325,
-              "name": "App Academy",
-              "price": 123,
-              "previewImage": "image url"
-            },
-            "ReviewImages": [
-              {
-                "id": 1,
-                "url": "image url"
-              }
-            ]
-          }
-        ]
-    };
+
+      {
+        "id": 4,
+        "userId": 4,
+        "spotId": 4,
+        "review": "Beautiful location!",
+        "stars": 5,
+        "createdAt": "2021-11-19 20:39:36",
+        "updatedAt": "2021-11-19 20:39:36" ,
+      },
+
+
+      {  
+        "id": 5,
+        "userId": 5,
+        "spotId": 5,
+        "review": "Great beach spot!",
+        "stars": 3,
+        "createdAt": "2021-11-19 20:39:36",
+        "updatedAt": "2021-11-19 20:39:36" ,
+          
+      },
+    ],
+  //},
+      
+  //], 
+    { validate: true });
+  },
+
+  async down (queryInterface, Sequelize) {
+    /**
+     * Add commands to revert seed here.
+     *
+     * Example:
+     * await queryInterface.bulkDelete('People', null, {});
+     */
+    options.tableName = 'Reviews';
+    const Op = Sequelize.Op;
+    return queryInterface.bulkDelete(options, {}, {});
+  } 
+};
