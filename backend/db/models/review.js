@@ -11,9 +11,25 @@
       */
      static associate(models) {
        // define association here 
-     }
+
+
+      review.belongsTo(models.Spot, { 
+        foreignKey: 'spotId'
+      });
+
+      review.belongsTo(models.User, { 
+        foreignKey: 'UserId'
+      });
+      
+      // review.hasMany(models.ReviewImage, { 
+      //   foreignKey: 'reviewId'
+      // });
+
+
+     } 
    } 
  
+   
    review.init(
      {
  

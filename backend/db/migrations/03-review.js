@@ -8,14 +8,9 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    let options = {};
-    if (process.env.NODE_ENV === 'production') {
-    options.schema = process.env.SCHEMA;  // define your schema in options object
-  }
     
   await queryInterface.createTable('Reviews', {
     
-//Reviews
       id: { 
         allowNull: false,
         autoIncrement: true,

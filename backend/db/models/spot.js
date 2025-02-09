@@ -11,22 +11,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here 
+
       Spot.belongsTo(models.User, {
         foreignKey: 'ownerId', as: 'Owner'
     });
+    
     // Spot.hasMany(models.SpotImage, {
     //     foreignKey: 'spotId'
-    // });
-    // Spot.hasMany(models.Review, {
-    //     foreignKey: 'spotId'
-    // });
-    // Spot.hasMany(models.Booking, {
-    //     foreignKey: 'spotId'
-    // });
+    // }); 
 
+    Spot.hasMany(models.Review, {
+        foreignKey: 'spotId'
+    });
 
-      }
-     } 
+    Spot.hasMany(models.Booking, {
+        foreignKey: 'spotId'
+    });
+
+     }
+   } 
 
   Spot.init(
     {
@@ -114,15 +117,6 @@ module.exports = (sequelize, DataTypes) => {
      min: 1
     },
   },
-
-  // avgRating: {
-  //   type: DataTypes.DECIMAL,
-  //   allowNull: true,
-  //   validate: {
-  //    min: 0,
-  //    max: 10,
-  //   },
-  // },
 
   updatedAt: {
     type: DataTypes.DECIMAL,
