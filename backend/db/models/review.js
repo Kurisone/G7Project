@@ -3,7 +3,7 @@
  
  
  module.exports = (sequelize, DataTypes) => { 
-   class review extends Model {
+   class Review extends Model {
      /**
       * Helper method for defining associations.
       * This method is not a part of Sequelize lifecycle.
@@ -13,11 +13,11 @@
        // define association here 
 
 
-      review.belongsTo(models.Spot, { 
+      Review.belongsTo(models.Spot, { 
         foreignKey: 'spotId'
       });
 
-      review.belongsTo(models.User, { 
+      Review.belongsTo(models.User, { 
         foreignKey: 'UserId'
       });
       
@@ -30,7 +30,7 @@
    } 
  
    
-   review.init(
+   Review.init(
      {
  
 
@@ -78,5 +78,5 @@
      },
    }
  );
-   return review;
+   return Review;
  };

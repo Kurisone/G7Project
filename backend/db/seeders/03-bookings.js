@@ -49,7 +49,7 @@ module.exports = {
                 endDate: '2027-02-02',
             },
 
-        ], { validate: true });
+        ], { validate: true, ...options });
     },
     async down(queryInterface, Sequelize) {
         options.tableName = 'Bookings';
