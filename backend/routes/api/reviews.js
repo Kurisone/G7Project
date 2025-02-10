@@ -48,23 +48,7 @@ const validateReview = [
 ];
    
 
-// --Create a Review--
-router.post('spots/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
-  try {
-   const {  stars,} = req.body;
-   const ownerId = req.user.id;
 
-
-   const review = await Review.create({
-    review,
-    'stars'
-});
-    
-    return res.status(201).json(review);
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
-});
 
 
 

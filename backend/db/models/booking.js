@@ -1,12 +1,10 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
     static associate(models) {
       // define association here
-    }
-  }
         
 
     Booking.belongsTo(models.User, {
@@ -19,8 +17,8 @@ module.exports = (sequelize) => {
 
 
      
-      }
-    }
+      };
+    };
 
   Booking.init(
     {
@@ -55,7 +53,7 @@ module.exports = (sequelize) => {
       //     exclude: ['createdAt', 'updatedAt'],
       //   },
       // },
-    }
+    },
   );
 
   return Booking;
