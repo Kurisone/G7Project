@@ -14,10 +14,12 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING(256),
         allowNull: false,
       },
+
       lastName: {
         type: DataTypes.STRING(256),
         allowNull: false,
       },
+
       email: {
         type: DataTypes.STRING(256),
         allowNull: false,
@@ -26,6 +28,7 @@ module.exports = (sequelize) => {
           len: [3, 256],
           isEmail: true,
         },
+
       },
       username: {
         type: DataTypes.STRING(30),
@@ -51,7 +54,6 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: 'User',
-      schema: process.env.SCHEMA || 'protocol_3', // Define schema here
       defaultScope: {
         attributes: {
           exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
