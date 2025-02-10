@@ -96,7 +96,7 @@ module.exports = {
         price: 123,
       },
 
-    ], { validate: true });
+    ], { validate: true, ...options});
   },
 
   async down (queryInterface, Sequelize) {
