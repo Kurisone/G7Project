@@ -60,7 +60,6 @@ router.post('/', validateSignup, async (req, res) => {
 });
 
 
-
 // --Get All Users--
 router.get('/', requireAuth, async (req, res) => {
   try {

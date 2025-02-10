@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-/* @type {import('sequelize-cli').Migration} */
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
 
@@ -82,6 +82,7 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       
+      
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -102,6 +103,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
+ 
     options.tableName = "Spots";
     return queryInterface.dropTable(options);
   }
