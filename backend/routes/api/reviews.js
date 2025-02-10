@@ -46,18 +46,25 @@ const validateReview = [
     .withMessage('Please provide a valid price.'),
   handleValidationErrors
 ];
-   
+  
 
 // --Create a Review--
-router.post('spots/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
+router.post('/', requireAuth, validateReview, async (req, res) => {
   try {
-   const { 'review' stars,} = req.body;
+   const { address, city, state, country, lat, lng, name, description, price } = req.body;
    const ownerId = req.user.id;
 
-
    const review = await Review.create({
-    review,
-    'stars'
+    ownerId,
+    address,
+    city,
+    state,
+    country, 
+    lat,
+    lng,
+    name,
+    description,
+    price
 });
     
     return res.status(201).json(review);
@@ -105,7 +112,7 @@ router.get('/:id', async (req, res) => {
 
 
 // --Get Review by Owner Id--
-router.get('/current', requireAuth, async (req, res) => {
+router.get('/currentUser', requireAuth, async (req, res) => {
   try {
     const ownerId = req.user.id;
     const review = await Review.findAll({
@@ -173,31 +180,5 @@ router.put('/:id', requireAuth, validateReview, async (req, res) => {
   }
 });
 
-
-router.delete('/:spotId', requireAuth, async (req, res, next) => {
-  const spotId = req.params.spotId;
-  const userId = req.user.id;
-
-  try {
-    const spot = await Spot.findByPk(spotId);
-
-    if (!spot) {
-      const err = new Error("Spot couldn't be found");
-      err.status = 404;
-      return next(err);
-    }
-
-    if (spot.ownerId !== userId) {
-      const err = new Error('Forbidden');
-      err.status = 403;
-      return next(err);
-    }
-
-    await spot.destroy();
-    res.json({ message: "Successfully deleted" });
-  } catch (e) {
-    next(e);
-  }
-});
 
 module.exports = router;
