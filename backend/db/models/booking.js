@@ -1,28 +1,12 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize, DataTypes) => {
-    class Booking extends Model {
-      static associate(models) {
+module.exports = (sequelize) => {
+  class Booking extends Model {
+    static associate(models) {
       // define association here
-        
-    // Spot.hasMany(models.Booking, {
-    // foreignKey: 'spotId'
-    // });
-
-    Booking.belongsTo(models.User, {
-      foreignKey: 'userId'
-    })
-    
-
-    Booking.belongsTo(models.Spot, { 
-         foreignKey: 'spotId'
-     });
-
-
-     
-      }
     }
+  }
 
   Booking.init(
     {
@@ -49,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
         // },
       },
     },
-
     {
       sequelize,
       modelName: 'Booking',
@@ -60,5 +43,6 @@ module.exports = (sequelize, DataTypes) => {
       // },
     }
   );
+
   return Booking;
 };

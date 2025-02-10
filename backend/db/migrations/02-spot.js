@@ -8,11 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    let options = {};
-    if (process.env.NODE_ENV === 'production') {
-    options.schema = process.env.SCHEMA;  // define your schema in options object
-  }
-    
+
   await queryInterface.createTable('Spots', {
 
       id: {
@@ -25,10 +21,15 @@ module.exports = {
       ownerId: { 
         type: Sequelize.INTEGER,
         allowNull: false,
+        // unique: true
+      //   references: {
+      //     model: 'Users',
+      //     key: 'id'
+      // }
       },
     
       address: {
-        type: Sequelize.STRING(256),
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
@@ -81,11 +82,23 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       
+      
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
+
+      // avgRating: {
+      //   type: Sequelize.DECIMAL, //-> don't put aggregate data on db. 
+      //   allowNull: false,
+      //     defaultvalue: 0,
+      // },
+
+      // previewImage: {
+      //   type: Sequelize.STRING,
+      //   allowNull: false
+      // },
 
     }, options);
   },
@@ -93,7 +106,5 @@ module.exports = {
  
     options.tableName = "Spots";
     return queryInterface.dropTable(options);
-    await queryInterface.dropTable('Spots');
   }
 };
-

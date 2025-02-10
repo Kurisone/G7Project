@@ -5,11 +5,10 @@ if (process.env.NODE_ENV === 'production') {
     options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-/** @type {import('sequelize-cli').Migration} */
+/* @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-
-        await queryInterface.createTable('Reviews', {
+        await queryInterface.createTable('ReviewImages', {
 
             id: {
                 allowNull: false,
@@ -18,24 +17,18 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
 
-            userId: {
-                type: Sequelize.INTEGER,
-                allowNull: false
-            },
-
-            spotId: {
+            reviewId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
-                unique: true
+                references: {
+                    model: "Reviews",
+                    key: 'id'
+                },
+                onDelete: 'CASCADE'
             },
 
-            review: {
-                type: Sequelize.TEXT,
-                allowNull: false
-            },
-
-            stars: {
-                type: Sequelize.INTEGER,
+            url: {
+                type: Sequelize.STRING,
                 allowNull: false
             },
 
@@ -49,15 +42,13 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-            },
-
+            }
 
         }, options);
     },
-    async down(queryInterface, Sequelize) {
 
-        options.tableName = "Reviews";
-        return queryInterface.dropTable(options);
-        await queryInterface.dropTable('Reviews');
-    }
+ async down(queryInterface, Sequelize) {
+     options.tableName = "Review Images";
+     await queryInterface.dropTable(options);
+ }
 };

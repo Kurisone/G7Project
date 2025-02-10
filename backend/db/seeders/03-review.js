@@ -5,57 +5,60 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-/* @type {import('sequelize-cli').Migration} */
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Bookings', {
-
-      id: {
+    
+  await queryInterface.createTable('Reviews', {
+    
+      id: { 
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey: true, 
         type: Sequelize.INTEGER
+      }, 
+
+      userId: { 
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
+    
       spotId: { 
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'Spots',
-          key: 'id'
-      }
+        unique: true
+
       },
-      userId: { 
+
+      review: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+
+      stars: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id'
-      }
-      },
-      startDate: {
-        type: Sequelize.DATEONLY,
         allowNull: false
       },
-      endDate: {
-        type: Sequelize.DATEONLY,
-        allowNull: false
-      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
+
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      }
+         allowNull: false,
+         type: Sequelize.DATE,
+         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+
 
     }, options);
   },
-  
   async down(queryInterface, Sequelize) {
-    options.tableName = "Bookings";
+   
+    options.tableName = "Reviews";
     return queryInterface.dropTable(options);
+    await queryInterface.dropTable('Reviews');
   }
 };
