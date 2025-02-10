@@ -6,17 +6,18 @@ module.exports = (sequelize) => {
     static associate(models) {
       // define association here
 
-      // User.hasMany(models.Spot, {
-      //   foreignKey: 'ownerId', as: 'Owner'
-      // });
+      User.hasMany(models.Spot, {
+        foreignKey: 'ownerId', as: 'Owner'
+      });
       
-      // User.hasMany(models.Review, {
-      //   foreignKey: 'userId'
-      // });
+      User.hasMany(models.Review, {
+        foreignKey: 'userId'
+      });
   
-      // User.hasMany(models.Booking, {
-      //   foreignKey: 'userId'
-      // });
+      User.hasMany(models.Booking, {
+        foreignKey: 'userId'
+      });
+
     }
   }
 
@@ -63,7 +64,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: 'User',
-      schema: process.env.SCHEMA || 'protocol_3', // Define schema here
+      // schema: process.env.SCHEMA || 'protocol_3', // Define schema here
       defaultScope: {
         attributes: {
           exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],

@@ -21,9 +21,9 @@
         foreignKey: 'UserId'
       });
       
-      // review.hasMany(models.ReviewImage, { 
-      //   foreignKey: 'reviewId'
-      // });
+      Review.hasMany(models.ReviewImage, { 
+        foreignKey: 'reviewId'
+      });
 
 
      } 
