@@ -51,13 +51,13 @@ const validateReview = [
 // --Create a Review--
 router.post('spots/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
   try {
-   const {  stars,} = req.body;
+   const { reviews, stars,} = req.body;
    const ownerId = req.user.id;
-
 
    const review = await Review.create({
     review,
-    'stars'
+    stars
+  
 });
     
     return res.status(201).json(review);
@@ -69,7 +69,7 @@ router.post('spots/:spotId/reviews', requireAuth, validateReview, async (req, re
 
 
 // --Get All Reviews--
-router.get('/', async (req, res) => {
+router.get('/reviews', async (req, res) => {
   try {
     const reviews = await Review.findAll();
     return res.json(reviews);
@@ -80,14 +80,14 @@ router.get('/', async (req, res) => {
 
 
 // --Get Review By Id--
-router.get('/:id', async (req, res) => {
+router.get('/spots/:spotId/reviews', async (req, res) => {
    try {
      const review = await Review.findByPk(req.params.id,
      {
       include: [
         {
-          model: User,
-          as: 'Owner',
+          model: Spot,
+          as: 'Spot',
           attributes: ['id', 'firstName', 'lastName']
         }
       ]
