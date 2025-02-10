@@ -36,7 +36,7 @@ module.exports = {
       {
         "id": 2,
         "userId": 2,
-        "spotId": 2,
+        "spotId": 2, 
         "review": "Great vacation spot!",
         "stars": 5,
         "createdAt": "2021-11-19 20:39:36",
@@ -77,10 +77,8 @@ module.exports = {
           
       },
     ],
-  //},
-      
-  //], 
-    { validate: true });
+ 
+    { validate: true, ...options });
   },
 
   async down (queryInterface, Sequelize) {

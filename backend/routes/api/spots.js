@@ -1,13 +1,18 @@
+//Imports
 const express = require('express');
 const router = express.Router();
 
+// --Utility Imports--
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+
+// --Sequelize Imports--
 const { Spot, User } = require('../../db/models');
+//models?; spot, user?
 
-
-// Validate Spots
+ 
+// --Validate Spots--
 const validateSpot = [
   check('address')
     .exists({ checkFalsy: true })
@@ -42,7 +47,8 @@ const validateSpot = [
   handleValidationErrors
 ];
 
-//Create a Spot
+
+// --Create a Spot--
 router.post('/', requireAuth, validateSpot, async (req, res) => {
   try {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -67,7 +73,8 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
   }
 });
 
-// Get All spots
+
+// --Get All spots--
 router.get('/', async (req, res) => {
   try {
     const spots = await Spot.findAll();
@@ -77,31 +84,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get spot by id
-router.get('/:id', async (req, res) => {
-  try {
-    const spot = await Spot.findByPk(req.params.id); 
-    //   {
-    //   include: [
-    //     {
-    //       model: User,
-    //       as: 'Owner',
-    //       attributes: ['id', 'firstName', 'lastName']
-    //     }
-    //   ]
-    // });
 
-    if (!spot) {
-      return res.status(404).json({ message: "Spot couldn't be found" });
-    }
-
-    return res.json(spot);
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-});
-
-//get spots
+// --Get Spot by Id--
 router.get('/:id', async (req, res) => {
   try {
     const spot = await Spot.findByPk(req.params.id, 
@@ -125,7 +109,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Get spots by owner id
+
+// --Get Spots by Owner Id--
 router.get('/currentUser', requireAuth, async (req, res) => {
   try {
     const ownerId = req.user.id;
@@ -139,7 +124,8 @@ router.get('/currentUser', requireAuth, async (req, res) => {
   }
 });
 
-//Edit a spot
+
+// --Edit a Spot--
 router.put('/:id', requireAuth, validateSpot, async (req, res) => {
   const { id } = req.params;
   const userId = req.user.id;
@@ -186,6 +172,7 @@ router.put('/:id', requireAuth, validateSpot, async (req, res) => {
       previewImage: null,
       avgRating: null
     });
+    
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'An error occurred while updating the spot' });

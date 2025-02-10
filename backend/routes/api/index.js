@@ -1,5 +1,6 @@
 // ----IMPORTS----
 // --Express imports
+const reviewsRouter = require('./reviews.js');
 const spotsRouter = require('./spots.js');
 const usersRouter = require('./users.js');
 const express = require('express')
@@ -21,6 +22,8 @@ router.use(restoreUser);
 router.use('/session', sessionRouter);
 router.use('/spots', spotsRouter);
 router.use('/users', usersRouter);
+router.use('/reviews', reviewsRouter);
+
 
 
 // --Routes--

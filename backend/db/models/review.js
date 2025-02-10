@@ -3,7 +3,7 @@
  
  
  module.exports = (sequelize, DataTypes) => { 
-   class review extends Model {
+   class Review extends Model {
      /**
       
 Helper method for defining associations.
@@ -12,24 +12,24 @@ The models/index file will call this method automatically. */
 static associate(models) {// define association here
 
 
-    //   review.belongsTo(models.Spot, { 
-    //     foreignKey: 'spotId'
-    //   });
+      Review.belongsTo(models.Spot, { 
+        foreignKey: 'spotId'
+      });
 
-    //   review.belongsTo(models.User, { 
-    //     foreignKey: 'UserId'
-    //   });
-
-      // review.hasMany(models.ReviewImage, { 
-      //   foreignKey: 'reviewId'
-      // });
+      Review.belongsTo(models.User, { 
+        foreignKey: 'UserId'
+      });
+      
+      Review.hasMany(models.ReviewImage, { 
+        foreignKey: 'reviewId'
+      });
 
 
      } 
    } 
  
-
-   review.init(
+   
+   Review.init(
      {
  
 
@@ -77,5 +77,5 @@ static associate(models) {// define association here
      },
    }
  );
-   return review;
+   return Review;
  };
