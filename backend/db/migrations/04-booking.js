@@ -5,28 +5,39 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-/** @type {import('sequelize-cli').Migration} */
+/* @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Bookings', {
+
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING(30),
+      spotId: { 
+        type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true
+        references: {
+          model: 'Spots',
+          key: 'id'
+      }
       },
-      email: {
-        type: Sequelize.STRING(256),
+      userId: { 
+        type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true
+        references: {
+          model: 'Users',
+          key: 'id'
+      }
       },
-      hashedPassword: {
-        type: Sequelize.STRING.BINARY,
+      startDate: {
+        type: Sequelize.DATEONLY,
+        allowNull: false
+      },
+      endDate: {
+        type: Sequelize.DATEONLY,
         allowNull: false
       },
       createdAt: {
@@ -39,10 +50,12 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
+
     }, options);
   },
+  
   async down(queryInterface, Sequelize) {
-    options.tableName = "Users";
+    options.tableName = "Bookings";
     return queryInterface.dropTable(options);
   }
 };
