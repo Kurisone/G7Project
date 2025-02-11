@@ -2,8 +2,8 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Booking extends Model {
-      static associate(models) {
+  class Booking extends Model {
+    static associate(models) {
       // define association here
         
 
@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
 
 
      
-      }
-    }
+      };
+    };
 
   Booking.init(
     {
@@ -45,7 +45,6 @@ module.exports = (sequelize, DataTypes) => {
         // },
       },
     },
-
     {
       sequelize,
       modelName: 'Booking',
@@ -54,7 +53,8 @@ module.exports = (sequelize, DataTypes) => {
       //     exclude: ['createdAt', 'updatedAt'],
       //   },
       // },
-    }
+    },
   );
+
   return Booking;
 };

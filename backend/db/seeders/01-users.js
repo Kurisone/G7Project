@@ -21,6 +21,7 @@ module.exports = {
         username: 'Demo-lition',
         hashedPassword: bcrypt.hashSync('password')
       },
+
       {
         firstName: 'Fake',
         lastName: 'User',
@@ -28,6 +29,7 @@ module.exports = {
         username: 'FakeUser2',
         hashedPassword: bcrypt.hashSync('password2')
       },
+
       {
         firstName: 'User',
         lastName: 'Fake',
@@ -35,6 +37,7 @@ module.exports = {
         username: 'FakeUser3',
         hashedPassword: bcrypt.hashSync('password3')
       },
+
       {
         firstName: 'UserF',
         lastName: 'UFake',
@@ -42,6 +45,7 @@ module.exports = {
         username: 'FakeUser4',
         hashedPassword: bcrypt.hashSync('password4')
       },
+
       {
         firstName: 'Usery',
         lastName: 'Faker',
@@ -49,7 +53,6 @@ module.exports = {
         username: 'FakeUser5',
         hashedPassword: bcrypt.hashSync('password5')
       },
-
 
     ], { validate: true, ...options });
   },

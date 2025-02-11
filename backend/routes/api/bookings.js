@@ -117,7 +117,6 @@ router.get('/bookings/current', requireAuth, async (req, res) => {
   }
 });
 
-
 // Route to get all bookings for a specified spot
 router.get('/spots/:spotId/bookings', requireAuth, async (req, res) => {
   const { spotId } = req.params;
