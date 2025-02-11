@@ -8,8 +8,8 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
-const { Spot, User } = require('../../db/models');
-//models?; spot, user?
+const { Spot, SpotImage } = require('../../db/models');
+
 
  
 // --Validate Spots--
@@ -42,7 +42,7 @@ const validateSpot = [
     .withMessage('Please provide a description.'),
   check('price')
     .exists({ checkFalsy: true })
-    .isFloat({ min: 0 })
+    .isFloat({ min: 0, max: 500 })
     .withMessage('Please provide a valid price.'),
   handleValidationErrors
 ];
@@ -75,14 +75,41 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
 
 
 // --Get All spots--
-router.get('/', async (req, res) => {
+router.get('/', validateSpot, async (req, res) => {
+
   try {
-    const spots = await Spot.findAll();
-    return res.json(spots);
+    const spots = await Spot.findAll({
+
+          attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage'],
+          
+          include: [
+          {
+            model: SpotImage,
+            attributes: ['url'],
+            where: { preview: true },
+            required: false 
+           }
+          ]
+    });
+
+    const formattedSpots = spots.map(spot => {
+      const spotData = spot.toJSON();
+      if (spotData && spotData.SpotImages && spotData.SpotImages.length > 0) {
+        spotData.previewImage = spotData.SpotImages[0].url;
+      } else {
+        spotData.previewImage = null;
+      }
+      delete spotData.SpotImages;
+     return spotData;
+  });
+
+    return res.json({ page, size, Spots: formattedSpots});
+
   } catch (error) {
-    return res.status(500).json({ error: "Incorrect details for your Spot. Please use accurate information." });
+    return res.status(400).json({ error: "Incorrect details for your Spot. Please use accurate information." });
   }
 });
+
 
 
 // --Get Spot by Id--

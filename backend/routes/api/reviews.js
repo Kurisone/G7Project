@@ -1,184 +1,196 @@
-//Imports
 const express = require('express');
 const router = express.Router();
-
-// --Utility Imports--
 const { requireAuth } = require('../../utils/auth');
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { check, validationResult } = require('express-validator');
+const { Spot, Review, User, ReviewImage, SpotImage } = require('../../db/models');
 
-// --Sequelize Imports--
-const { Review } = require('../../db/models');
-//review, other?
-
-
-//--Middleware to protect incoming Data for review creation route-- 
+// Validation middleware for review data
 const validateReview = [
-  check('address')
+  check('review')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide an address.'),
-  check('city') 
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a city.'),
-  check('state')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a state.'),
-  check('country')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a country.'),
-  check('lat')
-    .exists({ checkFalsy: true })
-    .isFloat({ min: -90, max: 90 })
-    .withMessage('Please provide a valid latitude.'),
-  check('lng')
-    .exists({ checkFalsy: true })
-    .isFloat({ min: -180, max: 180 })
-    .withMessage('Please provide a valid longitude.'),
-  check('name')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a name.'),
-  check('description')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a description.'),
-  check('price')
-    .exists({ checkFalsy: true })
-    .isFloat({ min: 0 })
-    .withMessage('Please provide a valid price.'),
-  handleValidationErrors
+    .withMessage('Review text is required'),
+  check('stars')
+    .isInt({ min: 1, max: 5 })
+    .withMessage('Stars must be an integer from 1 to 5'),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        message: 'Bad Request',
+        errors: errors.array().reduce((acc, error) => {
+          acc[error.param] = error.msg;
+          return acc;
+        }, {})
+      });
+    }
+    next();
+  }
 ];
-  
 
-// --Create a Review--
-router.post('/', requireAuth, validateReview, async (req, res) => {
+// Route to get all reviews written by the current user
+router.get('/reviews/current', requireAuth, async (req, res) => {
+  const userId = req.user.id;
+
   try {
-   const { address, city, state, country, lat, lng, name, description, price } = req.body;
-   const ownerId = req.user.id;
-
-   const review = await Review.create({
-    ownerId,
-    address,
-    city,
-    state,
-    country, 
-    lat,
-    lng,
-    name,
-    description,
-    price
-});
-    
-    return res.status(201).json(review);
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
-});
-
-
-
-// --Get All Reviews--
-router.get('/', async (req, res) => {
-  try {
-    const reviews = await Review.findAll();
-    return res.json(reviews);
-  } catch (error) {
-    return res.status(500).json({ error: "Incorrect details for your Review. Please use accurate information." });
-  }
-});
-
-
-// --Get Review By Id--
-router.get('/:id', async (req, res) => {
-   try {
-     const review = await Review.findByPk(req.params.id,
-     {
+    const reviews = await Review.findAll({
+      where: { userId },
       include: [
         {
           model: User,
-          as: 'Owner',
           attributes: ['id', 'firstName', 'lastName']
+        },
+        {
+          model: Spot,
+          attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'],
+          include: [
+            {
+              model: SpotImage,
+              attributes: ['url'],
+              where: { preview: true },
+              required: false
+            }
+          ]
+        },
+        {
+          model: ReviewImage,
+          attributes: ['id', 'url']
         }
       ]
     });
-  
-     if (!review) {
-        return res.status(404).json({ message: "Review couldn't be found"});
-     }
 
-     return res.json(review);
-   } catch (error) {
-     return res.status(500).json({ error: error.message });
-  }
-});
-
-
-// --Get Review by Owner Id--
-router.get('/currentUser', requireAuth, async (req, res) => {
-  try {
-    const ownerId = req.user.id;
-    const review = await Review.findAll({
-      where: { ownerId }
-    });
-
-    return res.status(200).json(review);
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
-});
-
-
-// --Edit a Spot--
-router.put('/:id', requireAuth, validateReview, async (req, res) => {
-  const { id } = req.params;
-  const userId = req.user.id;
-  const { address, city, state, country, lat, lng, name, description, price } = req.body;
-
-  try {
-    const review = await Review.findOne({
-      where: {
-        id,
-        ownerId: userId
+    const formattedReviews = reviews.map(review => {
+      const reviewData = review.toJSON();
+      if (reviewData.Spot && reviewData.Spot.SpotImages && reviewData.Spot.SpotImages.length > 0) {
+        reviewData.Spot.previewImage = reviewData.Spot.SpotImages[0].url;
+      } else {
+        reviewData.Spot.previewImage = null;
       }
+      delete reviewData.Spot.SpotImages;
+      return reviewData;
     });
 
-    if (!review) {
-      return res.status(404).json({ message: 'Review not found or you do not have permission to edit this review' });
+    return res.json({ Reviews: formattedReviews });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+// Route to get all reviews for a specified spot
+router.get('/spots/:spotId/reviews', async (req, res) => {
+  const { spotId } = req.params;
+
+  try {
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
     }
 
-    spot.address = address || spot.address;
-    spot.city = city || spot.city;
-    spot.state = state || spot.state;
-    spot.country = country || spot.country;
-    spot.lat = lat || spot.lat;
-    spot.lng = lng || spot.lng;
-    spot.name = name || spot.name;
-    spot.description = description || spot.description;
-    spot.price = price || spot.price;
-
-    await spot.save();
-
-    return res.json({
-      id: spot.id,
-      ownerId: spot.ownerId,
-      address: spot.address,
-      city: spot.city,
-      state: spot.state,
-      country: spot.country,
-      lat: spot.lat,
-      lng: spot.lng,
-      name: spot.name,
-      description: spot.description,
-      price: spot.price,
-      createdAt: spot.createdAt,
-      updatedAt: spot.updatedAt,
-      previewImage: null,
-      avgRating: null
+    const reviews = await Review.findAll({
+      where: { spotId },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName']
+        },
+        {
+          model: ReviewImage,
+          attributes: ['id', 'url']
+        }
+      ]
     });
 
+    return res.json({ Reviews: reviews });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'An error occurred while updating the review' });
+    return res.status(500).json({ error: error.message });
   }
 });
 
+// Route to create a new review for a spot
+router.post('/spots/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
+  const { spotId } = req.params;
+  const { review, stars } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    const existingReview = await Review.findOne({
+      where: { spotId, userId }
+    });
+
+    if (existingReview) {
+      return res.status(403).json({ message: "Review already exists for this spot from the current user" });
+    }
+
+    const newReview = await Review.create({
+      userId,
+      spotId,
+      review,
+      stars
+    });
+
+    return res.status(201).json(newReview);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+
+
+// Route to update an existing review
+router.put('/reviews/:reviewId', requireAuth, validateReview, async (req, res) => {
+  const { reviewId } = req.params;
+  const { review, stars } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const existingReview = await Review.findByPk(reviewId);
+
+    if (!existingReview) {
+      return res.status(404).json({ message: "Review couldn't be found" });
+    }
+
+    if (existingReview.userId !== userId) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+
+    existingReview.review = review;
+    existingReview.stars = stars;
+    await existingReview.save();
+
+    return res.json(existingReview);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+// Route to delete an existing review
+router.delete('/reviews/:reviewId', requireAuth, async (req, res) => {
+  const { reviewId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const review = await Review.findByPk(reviewId);
+
+    if (!review) {
+      return res.status(404).json({ message: "Review couldn't be found" });
+    }
+
+    if (review.userId !== userId) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+
+    await review.destroy();
+
+    return res.json({ message: 'Successfully deleted' });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = router;
