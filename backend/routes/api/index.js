@@ -1,6 +1,8 @@
+// IN THE API/INDEX.JS  WE START OUR PROCESS FOR MAKING A NEW FEATURE
+
 // ----IMPORTS----
 // --Express imports
-const reviewsRouter = require('./reviews.js');
+const reviewsRouter = require('./reviews.js'); // fresh import
 const spotsRouter = require('./spots.js');
 const usersRouter = require('./users.js');
 const express = require('express')
@@ -19,6 +21,7 @@ const router = express.Router()
 router.use(restoreUser);
 
 // --Routes for API--
+//            prefix | where the router is located
 router.use('/session', sessionRouter);
 router.use('/spots', spotsRouter);
 router.use('/users', usersRouter);

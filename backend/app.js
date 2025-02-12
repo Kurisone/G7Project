@@ -20,7 +20,7 @@ const isProduction = environment === 'production';
 // --Express--
 const app = express();
 
-// --Middlewares-- 
+// --Middlewares--
 app.use(morgan('dev')); // security
 app.use(cookieParser()); // parse cookies from headers
 app.use(express.json()); // allows use of json in req/res
@@ -53,8 +53,11 @@ app.use(routes); // Connect all the routes
 
 // -----ERROR HANDLING----
 
+// THE FINAL ROUTE --- IF YOU HIT THIS, YOU DIDN'T HIT ANY OF THE OTHER ROUTES
+// THIS IS FOR 404S
 // Catch unhandled requests and forward to error handler.
 app.use((req, res, next) => {
+  console.log(1)
   const err = new Error("The requested resource couldn't be found.");
   err.title = "Resource Not Found";
   err.errors = { message: "The requested resource couldn't be found." };
@@ -62,8 +65,15 @@ app.use((req, res, next) => {
   next(err);
 });
 
+
+// MIDDLE-WARE FOR A ROUTE
+
+// CHECKS IF THE ERROR CAME FROM SEQUELIZE OR FROM OUR VALIDATIONS
+// IF IT DID, ADD THE VALIDATIONS
+
 // Process sequelize errors
 app.use((err, _req, _res, next) => {
+  console.log(2)
   // check if error is a Sequelize error:
   if (err instanceof ValidationError) {
     let errors = {};
@@ -78,6 +88,7 @@ app.use((err, _req, _res, next) => {
 
 // Error formatter
 app.use((err, _req, res, _next) => {
+  console.log(3)
   res.status(err.status || 500);
   console.error(err);
   res.json({

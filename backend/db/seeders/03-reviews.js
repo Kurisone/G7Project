@@ -9,20 +9,20 @@ if (process.env.NODE_ENV === 'production') {
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) { 
+  async up (queryInterface, Sequelize) {
     /**
      * Add seed commands here.
-     * 
+     *
      * Example:
      * await queryInterface.bulkInsert('People', [{
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert ( 'Reviews', [ 
+    await queryInterface.bulkInsert ( 'Reviews', [
     {
     //  "Reviews": [
-      
+
         "id": 1,
         "userId": 1,
         "spotId": 1,
@@ -36,7 +36,7 @@ module.exports = {
       {
         "id": 2,
         "userId": 2,
-        "spotId": 2, 
+        "spotId": 2,
         "review": "Great vacation spot!",
         "stars": 5,
         "createdAt": "2021-11-19 20:39:36",
@@ -54,7 +54,6 @@ module.exports = {
           "updatedAt": "2021-11-19 20:39:36" ,
       },
 
-
       {
         "id": 4,
         "userId": 4,
@@ -66,7 +65,7 @@ module.exports = {
       },
 
 
-      {  
+      {
         "id": 5,
         "userId": 5,
         "spotId": 5,
@@ -74,10 +73,10 @@ module.exports = {
         "stars": 3,
         "createdAt": "2021-11-19 20:39:36",
         "updatedAt": "2021-11-19 20:39:36" ,
-          
+
       },
     ],
- 
+
     { validate: true, ...options });
   },
 
@@ -91,5 +90,5 @@ module.exports = {
     options.tableName = 'Reviews';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {}, {});
-  } 
+  }
 };

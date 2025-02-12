@@ -8,10 +8,10 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 // --Sequelize Imports--
-const { Spot, User } = require('../../db/models');
+const { Spot, User, Review } = require('../../db/models');
 //models?; spot, user?
 
- 
+
 // --Validate Spots--
 const validateSpot = [
   check('address')
@@ -46,6 +46,72 @@ const validateSpot = [
     .withMessage('Please provide a valid price.'),
   handleValidationErrors
 ];
+
+/*
+// ROUTE TO GET ALL REVIEWS BASED ON A SPECIFIC SPOT ID
+router.get('/:id/reviews', async (req, res, next) => {
+  try {
+    return res.json(":)");
+  } catch (error) {
+    console.log("starting point")
+    next(error);
+  }
+})
+
+
+*/
+
+
+// PREFIXED WITH: /api/spots/
+
+
+// ROUTE TO GET ALL REVIEWS BASED ON A SPECIFIC SPOT ID
+router.get('/:id/reviews', async (req, res, next) => {
+  try {
+    res.status(201);
+
+    const spotId = req.params.id;
+    // SEQUELIZE ---- GRABBING DATA FROM THE DATABASE
+    const reviews = await Review.findAll({
+      where: {
+        spotId: spotId
+      }
+    });
+
+    /*
+     "Reviews": [
+        {
+          "id": 1,
+          "userId": 1,
+          "spotId": 1,
+          "review": "This was an awesome spot!",
+          "stars": 5,
+          "createdAt": "2021-11-19 20:39:36",
+          "updatedAt": "2021-11-19 20:39:36",
+          "User": {
+            "id": 1,
+            "firstName": "John",
+            "lastName": "Smith"
+          },
+          "ReviewImages": [
+            {
+              "id": 1,
+              "url": "image url"
+            }
+          ],
+        }
+      ]
+
+    */
+
+    return res.json({Reviews: reviews});
+  } catch (error) {
+    console.log("starting point")
+    next(error);
+  }
+})
+
+
 
 
 // --Create a Spot--
@@ -88,7 +154,7 @@ router.get('/', async (req, res) => {
 // --Get Spot by Id--
 router.get('/:id', async (req, res) => {
   try {
-    const spot = await Spot.findByPk(req.params.id, 
+    const spot = await Spot.findByPk(req.params.id,
       {
       include: [
         {
@@ -172,7 +238,7 @@ router.put('/:id', requireAuth, validateSpot, async (req, res) => {
       previewImage: null,
       avgRating: null
     });
-    
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'An error occurred while updating the spot' });
