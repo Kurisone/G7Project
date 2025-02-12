@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // --Utility Imports--
-const { requireAuth } = require('../../utils/auth');
+const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -90,24 +90,26 @@ router.get('/', validateSpot, async (req, res) => {
             required: false 
            }
           ]
-    });
+    //});
 
-    const formattedSpots = spots.map(spot => {
-      const spotData = spot.toJSON();
-      if (spotData && spotData.SpotImages && spotData.SpotImages.length > 0) {
-        spotData.previewImage = spotData.SpotImages[0].url;
-      } else {
-        spotData.previewImage = null;
-      }
-      delete spotData.SpotImages;
-     return spotData;
-  });
+    // const formattedSpots = spots.map(spot => {
+    //   const spotData = spot.toJSON();
+    //   if (spotData && spotData.SpotImages && spotData.SpotImages.length > 0) {
+    //     spotData.previewImage = spotData.SpotImages[0].url;
+    //   } else {
+    //     spotData.previewImage = null;
+    //   }
+    //   delete spotData.SpotImages;
+    //  return spotData;
+  }
+ );
 
-    return res.json({ page, size, Spots: formattedSpots});
+    return res.json({ page, size, Spots }) //formattedSpots ? 
 
-  } catch (error) {
+ } catch (error) {
     return res.status(400).json({ error: "Incorrect details for your Spot. Please use accurate information." });
   }
+
 });
 
 
