@@ -1,5 +1,6 @@
 'use strict';
 const { Model, DataTypes } = require('sequelize');
+const { Validator } = require('sequelize');
 
 module.exports = (sequelize) => {
   class User extends Model {
@@ -9,11 +10,11 @@ module.exports = (sequelize) => {
       User.hasMany(models.Spot, {
         foreignKey: 'ownerId', as: 'Owner'
       });
-      
+
       User.hasMany(models.Review, {
         foreignKey: 'userId'
       });
-  
+
       User.hasMany(models.Booking, {
         foreignKey: 'userId'
       });
